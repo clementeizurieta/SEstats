@@ -1,0 +1,4 @@
+#exportPattern("^[[:alpha:]]+")
+export(tDistPlot)
+export(fDistPlot)
+export(chisqDistPlot)

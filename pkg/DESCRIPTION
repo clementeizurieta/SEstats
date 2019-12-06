@@ -1,0 +1,10 @@
+Package: SEstats
+Type: Package
+Title: Tools for Software Engineering Statistics
+Version: 0.1.0
+Author: S. Katie Fogg
+Maintainer: S. Katie Fogg <s.katie.fogg@gmail.com>
+Description: Functions for use with Software Engineering Tutorials
+License: 
+Encoding: UTF-8
+LazyData: true
