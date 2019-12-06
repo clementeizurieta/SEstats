@@ -8,3 +8,5 @@ Description: Functions for use with Software Engineering Tutorials
 License: 
 Encoding: UTF-8
 LazyData: true
+URL: http://githib.com/skfogg/SEstats
+BugReports: http://githib.com/skfogg/SEstats/issues
