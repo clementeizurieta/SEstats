@@ -20,6 +20,57 @@
 model1 <- lm(value ~ domain + technique + domain*technique, data = factorial)
 summary(model1)
 
+## How to interpret model summary output:
+## The estimate for the first row in the model summary output is the estimated
+# value of domain I, technique R. Notice it is the same value (except with more
+# significant figures) as the value in the first row, first column of table 10.2
+# in the book. Each subsequent row in this summary table is in reference to
+# the baseline or 'Intercept' -- which is technique R, domain I. The second row,
+# domainII, is the effect of using domain II on technique R. In this case, the estimate
+# for domain II for technique R is 0.09250 LESS (because negative) than the estimated
+# value for domain I, technique R. To get the actual estimate for domain II,
+# technique R, add the second model coefficient to the first:
+coefficients(model1)[1] + coefficients(model1)[2]
+
+# To get the estimated value for domian III, technique R, add the third model
+# coefficient to the baseline:
+coefficients(model1)[1] + coefficients(model1)[3]
+
+# The fourth row in the model summary output is 'techniqueS', which is the
+# effect of technique S on domain I (remember domain I is part of the
+# baseline condition):
+coefficients(model1)[1] + coefficients(model1)[4]
+
+# Domain I, technique T:
+coefficients(model1)[1] + coefficients(model1)[5]
+
+# Domain I, technique U:
+coefficients(model1)[1] + coefficients(model1)[6]
+
+# In order to change both the domain AND the technique from the baseline,
+# we have to start adding multiple lines to the baseline. To calculate the
+# estimated value for domain II, technique S, we add coefficient 4 to change
+# technique R to technique S and then we add the 7th line, which is the alteration
+# to change domain I to domain II for technique S:
+coefficients(model1)[1] + coefficients(model1)[4] + coefficients(model1)[7]
+
+# Domain III, technique S:
+coefficients(model1)[1] + coefficients(model1)[4] + coefficients(model1)[8]
+
+# Domain II, technique T:
+coefficients(model1)[1] + coefficients(model1)[5] + coefficients(model1)[9]
+
+# Domain III, technique T:
+coefficients(model1)[1] + coefficients(model1)[5] + coefficients(model1)[10]
+
+# Domain II, technique U:
+coefficients(model1)[1] + coefficients(model1)[6] + coefficients(model1)[11]
+
+# Domain III, technique U:
+coefficients(model1)[1] + coefficients(model1)[6] + coefficients(model1)[12]
+
+
+
 #############################################################
 # 10.2.2 Calculating the Variation in the Response Variable #
 #############################################################
@@ -36,42 +87,12 @@ anova(model1)
 
 ## PLOTTING
 
+# Values from table 10.2:
+summary(model1)
 
-# domain I, technique R:
-coefficients(model1)[1]
 
-# domain II, technique R:
-coefficients(model1)[1] + coefficients(model1)[2]
 
-# domain III, technique R:
-coefficients(model1)[1] + coefficients(model1)[3]
 
-# domain I, technique S:
-coefficients(model1)[1] + coefficients(model1)[4]
-
-# domain I, technique T:
-coefficients(model1)[1] + coefficients(model1)[5]
-
-# domain I, technique U:
-coefficients(model1)[1] + coefficients(model1)[6]
-
-# domain II, technique S:
-coefficients(model1)[1] + coefficients(model1)[4] + coefficients(model1)[7]
-
-# domain III, technique S:
-coefficients(model1)[1] + coefficients(model1)[4] + coefficients(model1)[8]
-
-# domain II, technique T:
-coefficients(model1)[1] + coefficients(model1)[5] + coefficients(model1)[9]
-
-# domain III, technique T:
-coefficients(model1)[1] + coefficients(model1)[5] + coefficients(model1)[10]
-
-# domain II, technique U:
-coefficients(model1)[1] + coefficients(model1)[6] + coefficients(model1)[11]
-
-# domain III, technique U:
-coefficients(model1)[1] + coefficients(model1)[6] + coefficients(model1)[12]
 
 #################################
 # 10.2.5 Testing Model Validity #
