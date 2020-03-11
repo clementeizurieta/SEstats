@@ -69,17 +69,37 @@ coefficients(model1)[1] + coefficients(model1)[6] + coefficients(model1)[11]
 # Domain III, technique U:
 coefficients(model1)[1] + coefficients(model1)[6] + coefficients(model1)[12]
 
-
-
 #############################################################
 # 10.2.2 Calculating the Variation in the Response Variable #
 #############################################################
 anova(model1)
 
+## In the anova table output, the Sum Sq value for domain (row 1, column 2)
+# is SSA in the book. Sum Sq value for technique (row2, column 2) is SSB.
+# Sum Sq for domain:tachnique is SSAB, and the last row, Residuals is SSE.
+# SST can be found by add all Sum Sq:
+(sst <- sum(anova(model1)$"Sum Sq"))
+
+## Percentage varitions in response due to each factor and foactor interactions:
+# Domain
+anova(model1)$"Sum Sq"[1]/sst * 100
+
+# Technique
+anova(model1)$"Sum Sq"[2]/sst * 100
+
+# Domain:Technique
+anova(model1)$"Sum Sq"[3]/sst * 100
+
+# Error
+anova(model1)$"Sum Sq"[4]/sst * 100
+
+
 ####################################################################################
 # 10.2.3 Statistical Significance of the Variation Due to Factors and Interactions #
 ####################################################################################
 anova(model1)
+
+## See statistical significance in the last column ('Pr(>F)') of the anova table
 
 #################################################################
 # 10.2.4 Recommendations on the Best Alternative of Each Factor #
@@ -87,23 +107,64 @@ anova(model1)
 
 ## PLOTTING
 
-# Values from table 10.2:
-summary(model1)
+dImean <- mean(subset(factorial, domain == "I")$value)
+dIImean <- mean(subset(factorial, domain == "II")$value)
+dIIImean <- mean(subset(factorial, domain == "III")$value)
+
+tRmean <- mean(subset(factorial, technique == "R")$value)
+tSmean <- mean(subset(factorial, technique == "S")$value)
+tTmean <- mean(subset(factorial, technique == "T")$value)
+tUmean <- mean(subset(factorial, technique == "U")$value)
 
 
+## Figure 10.1 ##
+par(mfrow = c(1,2), mar = c(5,2,3,1), oma = c(0,3,0,0))
+plot(y = c(dImean, dIImean, dIIImean),
+     x = c(1:3),
+     type = "o",
+     pch = 19,
+     xlab = "Domain",
+     xaxt = "n",
+     ylim = c(0.2, 0.7))
+axis(side = 1, at = c(1,2,3), labels = c("I", "II", "III"))
+plot(y = c(tRmean, tSmean, tTmean, tUmean),
+     x = c(1:4),
+     type = "o",
+     pch = 19,
+     xlab = "Technique",
+     xaxt = "n",
+     ylim = c(0.2, 0.8))
+axis(side = 1, at = c(1,2,3,4), labels = c("R", "S", "T", "U"))
+mtext("Response variable", side = 2, outer = T, line = 1)
+par(mfrow = c(1,1), mar = c(5,4,4,1), oma = c(0,0,0,0))
 
-
+## Alternative:
+## Use a barplot in R when looking at factors. This simplifies the plotting code:
+# (The default plot in R is a scatterplot, which is meant for 2 numeric variables)
+barplot(height = c(dImean, dIImean, dIIImean),
+        names.arg = c("I", "II", "III"),
+        xlab = "Domain")
+barplot(height = c(tRmean, tSmean, tTmean, tUmean),
+        names.arg = c("R", "S", "T", "U"),
+        xlab = "Technique")
 
 #################################
 # 10.2.5 Testing Model Validity #
 #################################
 
-## Figure 10.2
+## Figure 10.2 ##
 plot(model1, which = 1)
 
 plot(model1, which = 2)
 
 plot(model1, which = 3)
 
+##########
+## 10.3 ##
+##########
 
+#############################################
+# 10.3.1 Analysis for 2^2 Factorial Designs #
+#############################################
 
+factorial2 <- data.frame(paradigm = c())
