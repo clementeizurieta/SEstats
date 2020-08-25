@@ -76,7 +76,7 @@ anova(model1)
 
 ## In the anova table output, the Sum Sq value for domain (row 1, column 2)
 # is SSA in the book. Sum Sq value for technique (row2, column 2) is SSB.
-# Sum Sq for domain:tachnique is SSAB, and the last row, Residuals is SSE.
+# Sum Sq for domain:technique is SSAB, and the last row, Residuals is SSE.
 # SST can be found by add all Sum Sq:
 (sst <- sum(anova(model1)$"Sum Sq"))
 
