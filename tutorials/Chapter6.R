@@ -150,7 +150,7 @@ s1 <- 20
 s2 <- 8
 
 ## Calculate F-statistic
-(f <- (n1*s1)/((n1-1)*sigma1))/((n2*s2)/((n2-1)*sigma2))
+(f <- (n1*s1)/((n1-1)*sigma1)/((n2*s2)/((n2-1)*sigma2)))
 
 ## F-Statistic is greater than the 95% confidence level, therefore we can reject the null hypothesis.
 # See plot below
