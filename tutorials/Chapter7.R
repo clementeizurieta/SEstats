@@ -83,9 +83,9 @@ points(0.44, dt(0.44, df = 9), pch = 19, cex = 1.5, col = "red")
 text(0.44, dt(0.44, df = 9), label = "0.44", pos = 4, col = "red")
 text(0, 0.18, label = "95%")
 
-# KEEEP???????
-t.test(subset(languages, Language == "A")$Correctness, subset(languages, Language == "B")$Correctness)
-
+# t-test
+t.test(subset(languages, Language == "B")$Correctness, subset(languages, Language == "A")$Correctness)
+t.test(y_b, y_a, var.equal = TRUE, paired=FALSE)
 #########
 ## 7.4 ##
 #########
@@ -138,5 +138,6 @@ points(t0, dt(t0, df = 9), pch = 19, cex = 1.5, col = "red")
 text(t0, dt(t0, df = 9), label = round(t0, 2), pos = 3, col = "red")
 text(0, 0.18, label = "95%")
 
-
+# A simple t-test on d (the differences)
+t.test(techniques$d)
 
