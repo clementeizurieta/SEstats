@@ -32,7 +32,7 @@ langErrors <- data.frame(projectID = 1:24,
 ###########
 langErrors$yhat_ij <- numeric(24)
 
-with(langErrors, tapply(yhat_ij, language, assign, c(61, 66, 68, 61)))
+#with(langErrors, tapply(yhat_ij, language, assign, c(61, 66, 68, 61)))
 
 langErrors$yhat_ij[langErrors$language == "A"] <- rep(61, 4)
 langErrors$yhat_ij[langErrors$language == "B"] <- rep(66, 6)
@@ -44,7 +44,7 @@ langErrors$residuals <- langErrors$errors - langErrors$yhat_ij
 
 ## Residuals of each observation
 # Note that the order is different as in Table 8.4, but all value are the same
-# The order is differebt because in the data frame that I created I order the values based on project number (projectID)
+# The order is different because in the data frame that I created I order the values based on project number (projectID)
 (residErrors <- with(langErrors, tapply(errors, language, function(x) x-mean(x))))
 
 ## Histogram of residuals is similar to the point graph of Figure 8.1.
@@ -54,7 +54,7 @@ langErrors$residuals <- langErrors$errors - langErrors$yhat_ij
 hist(unlist(residErrors), breaks = 12, xlim = c(-6, 6),
      main = "Histogram of residuals", xlab = "Residual")
 
-## Figure 8.2. Residuals plotted as a function of estimatedresponse variable values.
+## Figure 8.2. Residuals plotted as a function of estimated response variable values.
 plot(residuals ~ yhat_ij, data = langErrors, xlim = c(58, 69), ylim = c(-6,6))
 abline(h = 0, lty = 2)
 
