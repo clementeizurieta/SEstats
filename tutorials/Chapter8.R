@@ -123,6 +123,28 @@ text(x = qf(0.99, df1 = k-1, df2 = n-k), y = 0.3, label = paste0("F(0.99) = ", r
 points(13.5, df(13.5, df1 = 3, df2 = 20), col = "red", pch = 19, cex = 1.5)
 text(13.5, df(13.5, df1 = 3, df2 = 20), label = "13.5", col ="red", pos = 3)
 
+#ANOVA
+res.aov <- aov(langErrors$errors ~ langErrors$language)
+summary.aov(res.aov)
+
+#In one-way ANOVA test, a significant p-value indicates that some of the group means are different, 
+#but we don’t know which pairs of groups are different.
+#It’s possible to perform multiple pairwise-comparison, to determine if the mean difference between 
+#specific pairs of group are statistically significant.
+
+#As the ANOVA test is significant, we can compute Tukey HSD 
+#(Tukey Honest Significant Differences, R function: TukeyHSD()) for performing multiple 
+#pairwise-comparison between the means of groups.
+TukeyHSD(res.aov)
+
+#Plot homogeneity of variances
+plot(res.aov, 1)
+
+library(car)
+leveneTest(langErrors$errors ~ langErrors$language)
+
+#QQ plot of residuals
+plot(res.aov, 2)
 ###########
 ### 8.6 ###
 ###########
