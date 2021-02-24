@@ -25,18 +25,50 @@
 ## The following is how to set up a linear model in R, using the lm() function.
 # Read as "value is a function of the language and the programmer".
 # The tilde denotes "is a function of". The model statement refers the column names
-# of the 'languages' data frame, therefore the dataframe must be specified using
-# data = dataframename arguement.
+# of the 'languages' data frame, therefore the data frame must be specified using
+# data = dataframename argument.
+
+# The order of the explanatory variables does not matter.  Note that R takes care of converting 
+# the variables into categorical variables.  If you wanted to look at the levels of both variables
+# I could do something like this:
+(levels(as.factor(languages$language)))
+(levels(as.factor(languages$programmer)))
+
+#If I wanted to look at the mean of all the programmers of type III for example:
+(mean(languages$value[as.factor(languages$programmer)=='III']))
+
+# Generate the multiple linear model
 model <- lm(value ~ language + programmer, data = languages)
 
 ## Calling just the model doesn't give a whole lot of information:
 model
 
-## Using the function summary() to get more information:
+## Using the function summary() to get more information.
+# The summary gives you the fitted regression equation which is:
+# mu(y|x) = 9.35 + 0.025(LanB) - 0.125(LanC) + 0.3(LanD) + 0.025(II) +0.325(III) + 0.55(IV)
+#
+# This says that the regression line for say Programmer II using language B is:
+# mu(y|x) = 9.35 +0.025(LabB) + 0.025(II)   All other terms are multiplied by 0.
+#
+# Note that the intercept is the baseline.
+# A categorical variable with k levels has k-1 dummy variables.
+# So the estimated value of y (the response variable) given all languages and programmer dummy 
+# variables = 0 (which means programming language A and programmer level I) is 9.35
+#
 summary(model)
 
+# Confidence intervals of our variables.  Provides the range for the slope of the variable.  That is
+# we are 95% confident of the true slope of a particular variable.
+confint(model, level=0.95)
+
+#Some plots
+lang_cat<-as.factor(languages$language)
+prog_cat<-as.factor(languages$programmer)
+plot(prog_cat, languages$value)
+points(prog_cat, languages$value, col="blue", xlab="Programmer Type", ylab="language values", main="Programmer Type vs Language Values")
+
 ## Because the functions in R do the math for you, the calculations
-# in table 9.2 are unecessary, but the following code shows you how
+# in table 9.2 are unnecessary, but the following code shows you how
 # to calculate those values:
 
 languages$effect <- (languages$value - 9.5)*10
@@ -72,7 +104,7 @@ effectmodel <- lm(effect ~ language + programmer, data = languages)
 ## Table 9.3: Experimental Residuals
 (exp_resid <- data.frame(y_ij = languages$effect, yhat_ij = fitted.values(effectmodel), e_ij = round(residuals(effectmodel), 2)))
 
-## Figure 9.1: Distribution of residuals against estimated values for our example
+## Figure 9.1: Distribution of residuals against estimated (fitted) values for our example
 plot(e_ij ~ yhat_ij,
      data = exp_resid,
      xlim = c(-4, 8),
@@ -91,7 +123,7 @@ abline(h = 0, lty = 2)
 ## R can plot the normal probability graph discussed in the book (called normal Q-Q in R):
 plot(model, which = 2)
 
-## The 'which' arguement above specifies which of 4 different model validation plots
+## The 'which' argument above specifies which of 4 different model validation plots
 # I would like to see. To see all of them use:
 par(mfrow = c(2,2))
 plot(model)
@@ -105,7 +137,8 @@ par(mfrow = c(1,1))
 
 ## Figure 9.1 represents the residuals against the estimated values, but the more
 # typical way of testing of independence in errors for any model is to plot the residuals
-# versus fitted for the model of interest instread of the effects model in Figure 9.1.
+# versus fitted for the model of interest instead of the effects model in Figure 9.1.  It is
+# the same thing.  Figure one uses the transformed values, and here we use the raw values.
 
 ## The best way is to use the default plot given by the model object:
 plot(model, which = 1)
@@ -128,33 +161,17 @@ abline(h = 0, lty = 2)
 # 9.2.2.4 Testing for Constant Variance of Errors #
 ###################################################
 
-## When the model's predictors is one or more factors, the 5th plot shows the
-# residuals vs. factor levels, shown below.
-
-## When the model is a function of another numerical predictor this plot shows the
-# residuals v. leverage. It can be a good indicator of outliers.
-
 ## Figure 9.3(a)
-plot(model, which = 5)
+plot(residuals(effectmodel) ~ prog_cat)
 
 ## Figure 9.3(b)
-# Since this model has two factors as a predictor, the one shown in this graph is the
-# first one listed in the model. To see plot Figure 9.3(b), make a new model with
-# 'programmer' first in the model statement:
-m3 <- lm(value ~ programmer + language, data = languages)
-plot(m3, which = 5)
-
-## In R, the third plot of the model shows the scale-location plot, also known as
-# spread-location. This plot helps you check the assumption of equal variance because
-# it is showing if the residuals are spread equally along the range of predictors. You
-# are looking for a horizontal line with equally spread points:
-plot(model, which = 3)
+plot(residuals(effectmodel) ~ lang_cat)
 
 #############################################################################
 ## 9.2.3 Factor-, Block-, and Error-Induced Variation in Response Variable ##
 #############################################################################
 
-## The analysis of variance table will show you the mean of the sum of squares(SST),
+## The analysis of variance table will show you the mean of the
 # sum of squares of the block effects (SSB), the sum of squares of the factor
 # alternatives (SSA), the sum of squares of the error (SSE).
 # **remember the book multiplied these numbers by 10
@@ -165,7 +182,6 @@ anova(model)
 #######################################################################################
 
 ## Also looking at the anova table in R:
-anova(model)
 
 ## In this table the the sum of squares for the factor alternatives, SSA (the 'languages'
 # factor in this model) is in the Sum Sq column, languages row
@@ -175,13 +191,16 @@ anova(model)
 
 ## SSE, sum of squared errors, or 'residuals', is the 3rd row of the Sum Sq column
 
-## The mean sum of squares, or SST is the top row of the Mean Sq column
-
 ## The anova table in R also gives you the F-value (top row, F value column) and the
 # p-value (top row, Pr(>F)) of this F-value in the correct F-distribution.
 
 ## The F-value and p-value for the block row, i.e. programmer, will be explained later
+anova(model)
 
+# What if we had not used a Block design? and the randomization had produced the same table
+# as in figure 9.1?  The F-test is polluted with errors.
+test<-lm(effect ~ language, data = languages)
+anova(test)
 
 ####################################################################
 ## 9.2.5 Recommendations on the Optimal Alternative of the Factor ##
