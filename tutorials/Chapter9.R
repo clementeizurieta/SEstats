@@ -298,9 +298,30 @@ anova(model5)
                               74, 75, 75, NA,
                               NA, 67, 68, 72,
                               71, 72, NA, 75)))
-## Cannot use the previous methods of making a model and looking at the anva table
+## Cannot use the previous methods of making a model and looking at the anova table
 # for incomplete block designs. See below. Must perform the calculations in Table 9.19/
 model6 <- lm(value ~ tool + individual, data = tools)
 anova(model6)
+
+## There is a package "Incomplete Block Design" (ibd) in R.  You need to load it before using it.
+library(ibd)
+#
+# lambda(a-1) = r(k-1)
+#
+# a = # of treatments (Factor)
+# b = # individuals (Block)
+# r = # of times each treatment is tested
+# k = # of treatments for each block
+# lambda = # of tools examined by any pair of treatments
+# ntrial = optional # of trials
+a <- 4
+b <- 4
+r <- 3
+k <- 3
+lambda <- 2
+
+# design <- bibd(a, b, r, k, lambda, ntrial)
+design <- bibd(a, b, r, k, lambda)
+design
 
 
