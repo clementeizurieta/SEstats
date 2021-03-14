@@ -47,27 +47,23 @@ coefficients(model1)[1] + coefficients(model1)[5]
 # Domain I, technique U:
 coefficients(model1)[1] + coefficients(model1)[6]
 
-# In order to change both the domain AND the technique from the baseline,
-# we have to start adding multiple lines to the baseline. To calculate the
-# estimated value for domain II, technique S, we add coefficient 4 to change
-# technique R to technique S and then we add the 7th line, which is the alteration
-# to change domain I to domain II for technique S:
-coefficients(model1)[1] + coefficients(model1)[4] + coefficients(model1)[7]
+# Domain II, technique S:
+coefficients(model1)[1] + coefficients(model1)[2] +coefficients(model1)[4] + coefficients(model1)[7]
 
 # Domain III, technique S:
-coefficients(model1)[1] + coefficients(model1)[4] + coefficients(model1)[8]
+coefficients(model1)[1] + coefficients(model1)[3] + coefficients(model1)[4] + coefficients(model1)[8]
 
 # Domain II, technique T:
-coefficients(model1)[1] + coefficients(model1)[5] + coefficients(model1)[9]
+coefficients(model1)[1] + coefficients(model1)[2] + coefficients(model1)[5] + coefficients(model1)[9]
 
 # Domain III, technique T:
-coefficients(model1)[1] + coefficients(model1)[5] + coefficients(model1)[10]
+coefficients(model1)[1] + coefficients(model1)[3] + coefficients(model1)[5] + coefficients(model1)[10]
 
 # Domain II, technique U:
-coefficients(model1)[1] + coefficients(model1)[6] + coefficients(model1)[11]
+coefficients(model1)[1] + coefficients(model1)[2] + coefficients(model1)[6] + coefficients(model1)[11]
 
 # Domain III, technique U:
-coefficients(model1)[1] + coefficients(model1)[6] + coefficients(model1)[12]
+coefficients(model1)[1] + coefficients(model1)[3] + coefficients(model1)[6] + coefficients(model1)[12]
 
 #############################################################
 # 10.2.2 Calculating the Variation in the Response Variable #
@@ -80,7 +76,7 @@ anova(model1)
 # SST can be found by add all Sum Sq:
 (sst <- sum(anova(model1)$"Sum Sq"))
 
-## Percentage varitions in response due to each factor and foactor interactions:
+## Percentage variations in response due to each factor and factor interactions:
 # Domain
 anova(model1)$"Sum Sq"[1]/sst * 100
 
