@@ -155,6 +155,15 @@ plot(model1, which = 2)
 
 plot(model1, which = 3)
 
+################
+# Let's run a non-parametric ANOVA for a factorial design.  Although Kruskal-Walis is a
+# non-parametric alternative, it only works for a one-way ANOVA.  The Aligned Rank Transform (ART)
+# test helps you run a non-parametric version of the factorial design.
+library(ARTool)
+domainFactor <- as.factor(factorial$domain)
+techniqueFactor <- as.factor(factorial$technique)
+m <- art(value ~ domainFactor*techniqueFactor, data = factorial)
+anova(m)
 ##########################################################################
 ## 10.3 ANALYSIS FOR FACTORIAL DESIGNS WITH TWO ALTERNATIVES PER FACTOR ##
 ##########################################################################
