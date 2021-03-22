@@ -306,10 +306,7 @@ sqrt((1/(3*2^(2-2)))*anova(model2)$'Mean Sq'[4])
 summary(model2)
 confint(model2)
 
-## Recommentations on the Best Alternative of Each Factor
-plot(y~paradigm, data = factorial2)
-plot(y~knowledge, data = factorial2)
-
+## Recommendations on the Best Alternative of Each Factor
 plot(x = c(0,1),
      y = c(mean(subset(factorial2, knowledge == "with" & paradigm == "new")$y),
            mean(subset(factorial2, knowledge == "with" & paradigm == "oo")$y)),
@@ -469,7 +466,7 @@ factorial4 <- data.frame(developers = rep(c("inhouse", "external"), times = 8),
                          complexity = rep(c("difficult", "simple"), each = 8),
                          y = c(45, 71, 48, 65, 68, 60, 80, 65, 43, 100, 45, 104, 75, 86, 70, 96))
 
-## I will show a proceedure similar to the one described in section 10.4.4
+## I will show a procedure similar to the one described in section 10.4.4
 # First, look solely at main effects (i.e. no interaction terms in the model)
 # determine which main effect doesn't have a large effect on y
 model4 <- lm(y ~ developers + processMaturity + devExperience + complexity, data = factorial4)
