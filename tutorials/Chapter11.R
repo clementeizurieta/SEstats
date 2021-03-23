@@ -13,7 +13,7 @@ nested <- data.frame(method = rep(c("A", "B"), each = 4),
 ## 11.2 IDENTIFICATION OF THE MATHEMATICAL MODEL ##
 ###################################################
 
-model1 <- lm(y ~ method + tool, data = nested)
+model1 <- lm(y ~ method/tool, data = nested)
 
 ##################################
 ## 11.3 VALIDATION OF THE MODEL ##
