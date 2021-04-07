@@ -1,6 +1,26 @@
 ####################
 #### CHAPTER 13 ####
 ####################
+####################
+# Experimental Design
+####################
+# install.packages("AlgDesign")
+library(AlgDesign)
+
+#Generate a factorial design
+gen.factorial(levels=c(3,2,3), nVars=3, varNames=c("A","B","C"));
+# Generate a common 2^k design
+gen.factorial(levels=2, nVars=3, varNames=c("A","B","C"))
+# A 2^k design but restrict the true factors to k-1
+gen.factorial(levels=2, nVars=3, factors=c(1,2), varNames=c("A","B","C"))
+gen.factorial(levels=c(2,2,4), nVars=3, factors=c(1,2), varNames=c("A","B","C"))
+gen.factorial(levels=2, nVars=4, factors=c(1,2,3), varNames=c("A","B","C","Block"))
+
+#test a fractional design
+mydesign<-gen.factorial(levels=2, nVars=4, varNames=c("A","B","C","Block"))
+set.seed(54321)
+(newdesign<-optFederov(~.,mydesign,8))
+
 
 ##########
 ## 13.1 ##
