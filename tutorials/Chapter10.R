@@ -164,6 +164,10 @@ domainFactor <- as.factor(factorial$domain)
 techniqueFactor <- as.factor(factorial$technique)
 m <- art(value ~ domainFactor*techniqueFactor, data = factorial)
 anova(m)
+
+#Another non-parametric test uses the Rfit package (https://journal.r-project.org/archive/2016/RJ-2016-027/RJ-2016-027.pdf)
+library(Rfit)
+raov(value ~ domain + technique + domain*technique, data = factorial)
 ##########################################################################
 ## 10.3 ANALYSIS FOR FACTORIAL DESIGNS WITH TWO ALTERNATIVES PER FACTOR ##
 ##########################################################################
