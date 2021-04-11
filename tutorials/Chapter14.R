@@ -29,6 +29,8 @@ N2 <- length(Tool2)
 
 (z <- (U - mu_U)/sigma2_U)
 
+# In R
+wilcox.test(Tool1, Tool2)
 
 #####################################
 ## 14.2.2 Kruskal-Wallis or H-test ##
